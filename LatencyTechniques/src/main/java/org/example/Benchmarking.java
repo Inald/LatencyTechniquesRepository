@@ -1,11 +1,28 @@
 package org.example;
 
+import org.HdrHistogram.Histogram;
+
 public class Benchmarking {
 
     private long startTime;
     private long endTime;
-    public Benchmarking() {
 
+    private Histogram hdrHistrogram;
+
+    public Benchmarking() {
+        hdrHistrogram = new Histogram(5);
+    }
+
+    public void addEntryToHistogram(long value) {
+        hdrHistrogram.recordValue(value);
+    }
+
+    public void printHistogramStats() {
+        System.out.println("50th percentile: " + hdrHistrogram.getValueAtPercentile(50));
+        System.out.println("90th Percentile: "+ hdrHistrogram.getValueAtPercentile(90));
+        System.out.println("99th percentile: " + hdrHistrogram.getValueAtPercentile(99));
+        System.out.println("99.99th percentile: " + hdrHistrogram.getValueAtPercentile(99.99));
+        System.out.println("Mean: " + hdrHistrogram.getMean());
     }
 
     public long getDifference() {
